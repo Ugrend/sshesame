@@ -1,23 +1,11 @@
 # sshesame
-A fake SSH server that lets everyone in and logs their activity
+A fake SSH server that lets everyone in and rickrolls them
 
 ## Warning
 This software, just like any other, might contain bugs. Given the popular nature of SSH, you probably shouldn't run it unsupervised as root on a production server on port 22. Use common sense.
 
 ## Motivation
-I was just curious what all these guys were up to:
-```
-sshd[8128]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=<client>  user=root
-sshd[8128]: Failed password for root from <client> port 37510 ssh2
-sshd[8128]: Received disconnect from <client> port 37510:11:  [preauth]
-sshd[8128]: Disconnected from <client> port 37510 [preauth]
-sshd[8141]: Received disconnect from <client> port 59353:11:  [preauth]
-sshd[8141]: Disconnected from <client> port 59353 [preauth]
-sshd[8151]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=<client>  user=root
-sshd[8151]: Failed password for root from <client> port 63785 ssh2
-sshd[8159]: Received disconnect from <client> port 24889:11:  [preauth]
-sshd[8159]: Disconnected from <client> port 24889 [preauth]
-```
+https://github.com/keroserene/rickrollrc
 
 ## Details
 `sshesame` accepts and logs
@@ -32,16 +20,12 @@ For more details, read the [relevant RFC](https://tools.ietf.org/html/rfc4254).
 ## Installing
 ### From source
 * [Install go](https://golang.org/doc/install) (version 1.4 or newer required)
-* `go get -u github.com/jaksi/sshesame`
+* `go get -u github.com/ugrend/sshesame`
 
-### Snap
-`snap install sshesame`
-
-Package created and maintained by [chadmiller](https://github.com/chadmiller).
-
-You can find the package [here](https://code.launchpad.net/~privacy-squad/+junk/sshesame-snap).
 
 ## Usage
+Extract astley80.7z before use.
+
 ```
 $ sshesame -h
 Usage of sshesame:

@@ -1,14 +1,18 @@
 package channel
 
 import (
+	"bufio"
 	"fmt"
-	log "github.com/Sirupsen/logrus"
-	"github.com/jaksi/sshesame/request"
-	"golang.org/x/crypto/ssh"
-	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"net"
+	"os"
 	"strconv"
+	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/ugrend/sshesame/request"
+	"golang.org/x/crypto/ssh"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 // RFC 4254
@@ -71,26 +75,22 @@ func Handle(remoteAddr net.Addr, newChannel ssh.NewChannel) {
 	defer channel.Close()
 	go request.Handle(remoteAddr, newChannel.ChannelType(), channelRequests)
 	if newChannel.ChannelType() == "session" {
-		terminal := terminal.NewTerminal(channel, "$ ")
-		for {
-			line, err := terminal.ReadLine()
-			if err != nil {
-				if err == io.EOF {
-					log.WithFields(log.Fields{
-						"client":  remoteAddr,
-						"channel": newChannel.ChannelType(),
-					}).Info("Terminal closed")
-					request.SendExitStatus(channel)
-				} else {
-					log.Warning("Failed to read from terminal:", err.Error())
-				}
-				break
-			}
-			log.WithFields(log.Fields{
-				"client":  remoteAddr,
-				"channel": newChannel.ChannelType(),
-				"line":    line,
-			}).Info("Channel input received")
+		terminal := terminal.NewTerminal(channel, "")
+		file, err := os.Open("astley80.full")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			terminal.Write(scanner.Bytes())
+			terminal.Write([]byte("\n"))
+			time.Sleep(1 * time.Millisecond)
+		}
+
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
 		}
 	} else {
 		data := make([]byte, 256)

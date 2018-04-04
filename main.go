@@ -3,14 +3,15 @@ package main
 import (
 	"crypto/sha256"
 	"flag"
-	log "github.com/Sirupsen/logrus"
-	"github.com/jaksi/sshesame/channel"
-	"github.com/jaksi/sshesame/request"
-	"golang.org/x/crypto/ed25519"
-	"golang.org/x/crypto/ssh"
 	"io/ioutil"
 	"net"
 	"strconv"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/ugrend/sshesame/channel"
+	"github.com/ugrend/sshesame/request"
+	"golang.org/x/crypto/ed25519"
+	"golang.org/x/crypto/ssh"
 )
 
 func main() {
